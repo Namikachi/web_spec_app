@@ -1,6 +1,8 @@
 import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 
+import { COLORS, FONT, SIZES } from '../constants';
+
 export default function Page() {
 	const router = useRouter();
 	const handleCreatePress = () => {
@@ -14,7 +16,10 @@ export default function Page() {
 					<Text style={styles.subtitle}>Create your web specification</Text>
 					<TouchableOpacity
 						onPress={() => handleCreatePress()}
-					><Text>test</Text></TouchableOpacity>
+						style={styles.startCreateBtn}
+					>
+						<Text style={styles.startCreateBtnTxt}>create</Text>
+					</TouchableOpacity>
 				</View>
 			</View>
 		</SafeAreaView>
@@ -40,5 +45,19 @@ const styles = StyleSheet.create({
 	subtitle: {
 		fontSize: 36,
 		color: "#38434D",
+	},
+	startCreateBtn: {
+		width: 100,
+		height: 50,
+		backgroundColor: COLORS.tertiary,
+		borderRadius: SIZES.medium,
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginTop: 20,
+	},
+	startCreateBtnTxt: {
+		fontSize: SIZES.large,
+		fontFamily: FONT.bold,
+		color: COLORS.white,
 	},
 });
