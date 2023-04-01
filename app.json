@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "scheme": "acme",
+    "web": {
+      "bundler": "metro"
+    },
+    "name": "web_spec_app",
+    "slug": "web_spec_app"
+  }
+}
