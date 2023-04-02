@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native-web';
-import { COLORS, FONT, SIZES } from '../../../constants';
+import { COLORS, FONT, SIZES } from '../../../../constants';
 
 const styles = StyleSheet.create({
 	container: {
@@ -7,6 +7,19 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		flex: 1,
 		columnGap: 10
+	},
+	setBtn: (isTrimmed) => ({
+		width: 80,
+		height: 50,
+		backgroundColor: isTrimmed ? COLORS.tertiary : COLORS.gray,
+		borderRadius: SIZES.medium,
+		justifyContent: 'center',
+		alignItems: 'center',
+	}),
+	setBtnTxt: {
+		color: COLORS.white,
+		fontSize: SIZES.medium,
+		fontFamily: FONT.bold,
 	},
 	imgContainer: {
 		width: '100%',
@@ -31,10 +44,7 @@ const styles = StyleSheet.create({
 	}),
 	specContainer: {
 		height: '100%',
-		flex: 1,
-	},
-	specOutline: {
-		flex: 1,
+		flex: 2,
 	},
 	specBoard: {
 		backgroundColor: COLORS.lightWhite,

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native-web';
-import { COLORS, FONT, SIZES } from '../../../constants';
+import { COLORS, FONT, SIZES } from '../../../../constants';
 
 const styles = StyleSheet.create({
 	uploadContainer: {

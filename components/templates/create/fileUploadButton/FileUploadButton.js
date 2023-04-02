@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Image, Text } from 'react-native'
 import * as ImagePicker from 'expo-image-picker';
 
 import styles from './fileuploadbutton.style';
-import { icons } from '../../../constants';
+import { icons } from '../../../../constants';
 
 const FileSelectButton = ({ setFileShow, setDimension }) => {
 	const handleDocumentSelection = useCallback(async () => {

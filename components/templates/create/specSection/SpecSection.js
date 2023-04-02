@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
-import { View, Text, ScrollView, Image } from 'react-native';
+import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { SpecOutline } from '../../../../components';
 
 import styles from './specsection.style';
 
@@ -10,6 +11,7 @@ const SpecSection = ({ fileShow, dimension }) => {
 	const startY = useRef(null);
 
 	const [isTrimming, setIsTrimming] = useState(false);
+	const [isTrimmed, setIsTrimmed] = useState(false);
 
 	useEffect(() => {
 		if (ref.current) {
@@ -41,14 +43,24 @@ const SpecSection = ({ fileShow, dimension }) => {
 		contextRef.current.fillRect(startX.current, startY.current, rectWidth, rectHeight);
 		contextRef.current.fillStyle = 'rgba(100,100,100,0.3)';
 		contextRef.current.strokeStyle = 'rgba(223,75,38,0.5)';
+
+		setIsTrimmed(true);
 	}
 
 	function handleStopTrimming() {
 		setIsTrimming(false)
 	}
 
+	function handleSetRect() {
+	}
+
 	return (
 		<View style={styles.container}>
+			<View>
+				<TouchableOpacity style={styles.setBtn(isTrimmed)} disabled={!isTrimmed} onPress={handleSetRect}>
+					<Text style={styles.setBtnTxt}>Set</Text>
+				</TouchableOpacity>
+			</View>
 			<View style={styles.imgContainer}>
 				<ScrollView style={styles.imgScrollView}>
 					<View style={styles.imgViewContainer(dimension.width, dimension.height)}>
@@ -56,6 +68,9 @@ const SpecSection = ({ fileShow, dimension }) => {
 							source={fileShow.uri}
 							style={styles.img(dimension.width, dimension.height)}
 						/>
+						{/* set → select → delete, edit, create smaller parts
+										→ next
+						*/}
 						<canvas
 							ref={ref}
 							style={{position: 'absolute'}}
@@ -71,9 +86,7 @@ const SpecSection = ({ fileShow, dimension }) => {
 				</ScrollView>
 			</View>
 			<View style={styles.specContainer}>
-				<View style={styles.specOutline}>
-					<Text>abcdefg</Text>
-				</View>
+				<SpecOutline />
 				<View style={styles.specBoard}>
 				</View>
 			</View>
