@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
 	titleInput: {
 		fontSize: 30,
 		height: 50,
-    margin: 12,
 		backgroundColor: '#ddd',
     // padding: 10,
 	},

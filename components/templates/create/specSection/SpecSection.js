@@ -4,8 +4,11 @@ import { SpecOutline } from '../../../../components';
 
 import styles from './specsection.style';
 
+let rectWidth, rectHeight;
+
 const SpecSection = ({ fileShow, dimension }) => {
-	const ref = useRef(null);
+	const refEdit = useRef(null);
+	const refShow = useRef(null);
 	const contextRef = useRef(null);
 	const startX = useRef(null);
 	const startY = useRef(null);
@@ -14,8 +17,8 @@ const SpecSection = ({ fileShow, dimension }) => {
 	const [isTrimmed, setIsTrimmed] = useState(false);
 
 	useEffect(() => {
-		if (ref.current) {
-			const ctx = ref.current.getContext('2d');
+		if (refEdit.current) {
+			const ctx = refEdit.current.getContext('2d');
 			ctx.lineCap = "round";
 			ctx.lineWidth = 3;
 
@@ -34,15 +37,16 @@ const SpecSection = ({ fileShow, dimension }) => {
 		const x = e.nativeEvent.offsetX;
 		const y = e.nativeEvent.offsetY;
 
-		const rectWidth = x - startX.current;
-		const rectHeight = y - startY.current;
+		rectWidth = x - startX.current;
+		rectHeight = y - startY.current;
 
-		contextRef.current.clearRect(0, 0, ref.current.width, ref.current.height);
+
+		contextRef.current.clearRect(0, 0, refEdit.current.width, refEdit.current.height);
 		contextRef.current.strokeRect(startX.current, startY.current, rectWidth, rectHeight);
 
 		contextRef.current.fillRect(startX.current, startY.current, rectWidth, rectHeight);
-		contextRef.current.fillStyle = 'rgba(100,100,100,0.3)';
-		contextRef.current.strokeStyle = 'rgba(223,75,38,0.5)';
+		contextRef.current.fillStyle = 'rgba(100,100,100,0.2)';
+		contextRef.current.strokeStyle = 'rgba(223,75,38,0.4)';
 
 		setIsTrimmed(true);
 	}
@@ -52,6 +56,15 @@ const SpecSection = ({ fileShow, dimension }) => {
 	}
 
 	function handleSetRect() {
+		const ctx = refShow.current.getContext('2d');
+		ctx.fillStyle = 'rgba(100, 100, 100, 0.2)';
+		ctx.strokeStyle = 'rgba(223,75,38,0.4)';
+
+		ctx.strokeRect(startX.current, startY.current, rectWidth, rectHeight);
+		ctx.fillRect(startX.current, startY.current, rectWidth, rectHeight);
+
+		contextRef.current.clearRect(0, 0, refEdit.current.width, refEdit.current.height);
+		setIsTrimmed(false);
 	}
 
 	return (
@@ -71,8 +84,21 @@ const SpecSection = ({ fileShow, dimension }) => {
 						{/* set → select → delete, edit, create smaller parts
 										→ next
 						*/}
+						{/* for Show */}
 						<canvas
-							ref={ref}
+							ref={refShow}
+							style={{position: 'absolute'}}
+							viewBox={`0 0 ${dimension.width} ${dimension.height}`}
+							height={dimension.height}
+							width={dimension.width}
+							onMouseDown={handleStartTrimming}
+							onMouseMove={handleTrimming}
+							onMouseUp={handleStopTrimming}
+							onMouseLeave={handleStopTrimming}
+						/>
+						{/* for Edit */}
+						<canvas
+							ref={refEdit}
 							style={{position: 'absolute'}}
 							viewBox={`0 0 ${dimension.width} ${dimension.height}`}
 							height={dimension.height}
