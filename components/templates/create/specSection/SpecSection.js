@@ -15,6 +15,7 @@ const SpecSection = ({ fileShow, dimension }) => {
 
 	const [isTrimming, setIsTrimming] = useState(false);
 	const [isTrimmed, setIsTrimmed] = useState(false);
+	const [rect, setRect] = useState([]);
 
 	useEffect(() => {
 		if (refEdit.current) {
@@ -26,9 +27,22 @@ const SpecSection = ({ fileShow, dimension }) => {
 		}
 	}, [fileShow]);
 	
+	// trimming or rescale or drag & drop
 	function handleStartTrimming(e) {
-		startX.current = e.nativeEvent.offsetX;
-		startY.current = e.nativeEvent.offsetY;
+		const pointerX =  e.nativeEvent.offsetX;
+		const pointerY =  e.nativeEvent.offsetY;
+
+		for(let item of rect) {
+			if(
+				(item.x + 10 < pointerX && item.y + 10 < pointerY) &&
+				(item.x + item.w - 10 > pointerX && item.y + item.h - 10 > pointerY)
+			) {
+				// start grab
+				// return
+			}
+		}
+		startX.current = pointerX;
+		startY.current = pointerY;
 		setIsTrimming(true);
 	}
 
@@ -65,6 +79,12 @@ const SpecSection = ({ fileShow, dimension }) => {
 
 		contextRef.current.clearRect(0, 0, refEdit.current.width, refEdit.current.height);
 		setIsTrimmed(false);
+		setRect(rect.concat({
+			x: startX.current,
+			y: startY.current,
+			w: rectWidth,
+			h: rectHeight
+		}));
 	}
 
 	return (
