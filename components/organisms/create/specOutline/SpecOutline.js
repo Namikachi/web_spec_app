@@ -6,6 +6,7 @@ import styles from './specoutline.style';
 
 const SpecOutline = () => {
 	const [specTitle, setSpecTitle] = useState('');
+	const [specOutline, setOutline] = useState('');
 
 	return (
 		<View style={styles.container}>
@@ -15,8 +16,15 @@ const SpecOutline = () => {
 				activeOutlineColor='#000'
 				style={styles.titleInput}
 				placeholderTextColor={'#d9d9d9'}
-				onChangeText={setSpecTitle}
-				value={specTitle}
+				onChangeText={setOutline}
+				value={specOutline}
+			/>
+			<TextInput
+				label='Outline'
+				mode='outlined'
+				activeOutlineColor='#000'
+				style={styles.outlineInput}
+				placeholderTextColor={'#d9d9d9'}
 			/>
 		</View>
 	)

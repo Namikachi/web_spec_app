@@ -8,7 +8,12 @@ const styles = StyleSheet.create({
 		fontSize: 30,
 		height: 50,
 		backgroundColor: '#ddd',
-    // padding: 10,
+	},
+	outlineInput: {
+		fontSize: 20,
+		height: 50,
+		backgroundColor: '#ddd',
+		marginTop: 10
 	},
 })
 

@@ -39,6 +39,8 @@ const SpecSection = ({ fileShow, dimension }) => {
 			) {
 				// start grab
 				// return
+			} else {
+				// create rectangle
 			}
 		}
 		startX.current = pointerX;
