@@ -13,7 +13,7 @@ const SpecSection = ({ fileShow, dimension }) => {
 	const startX = useRef(null);
 	const startY = useRef(null);
 
-	const [isTrimming, setIsTrimming] = useState(false);
+	const [editStatus, setEditStatus] = useState('disable');
 	const [isTrimmed, setIsTrimmed] = useState(false);
 	const [rect, setRect] = useState([]);
 
@@ -26,46 +26,71 @@ const SpecSection = ({ fileShow, dimension }) => {
 			contextRef.current = ctx;
 		}
 	}, [fileShow]);
+
+	function createStartPoint(x, y) {
+		startX.current = x;
+		startY.current = y;
+		setEditStatus('new');
+	}
 	
 	// trimming or rescale or drag & drop
 	function handleStartTrimming(e) {
 		const pointerX =  e.nativeEvent.offsetX;
 		const pointerY =  e.nativeEvent.offsetY;
+		let status = 'disable';
+
+		if(!rect.length) {
+			createStartPoint(pointerX, pointerY)
+			return
+		};
 
 		for(let item of rect) {
+			// move
 			if(
-				(item.x + 10 < pointerX && item.y + 10 < pointerY) &&
-				(item.x + item.w - 10 > pointerX && item.y + item.h - 10 > pointerY)
+				((item.x + 5 <= pointerX && item.y + 5 <= pointerY) &&
+				(item.x + item.w - 5 >= pointerX && item.y + item.h - 5 >= pointerY)) ||
+				((item.x < pointerX && item.x + 5 > pointerX) &&
+				 (item.y + 5 <= pointerY && item.y + item.h - 5 >= pointerY)) ||
+				((item.x + 5 <= pointerX && item.x + item.w - 5 >= pointerX) &&
+				 (item.y < pointerY && item.y + 5 > pointerY)) ||
+				((item.x + item.w - 5 < pointerX && item.x + item.w > pointerX) &&
+				 (item.y + 5 <= pointerY && item.y + item.h - 5 >= pointerY)) ||
+				((item.x + 5 <= pointerX && item.x + item.w - 5 >= pointerX) &&
+				 (item.y + item.h - 5 < pointerY && item.y + item.h > pointerY)) 
 			) {
-				// start grab
-				// return
+				status = 'move';
+				setEditStatus(status);
+				break
+
+			// resize
 			} else if(
 				// left top
 				((item.x + 5 > pointerX) && (item.x <= pointerX) &&
 				 (item.y + 5 > pointerY) && (item.y <= pointerY)) ||
 				// right top
 				((item.x + item.w - 5 < pointerX) && (item.x + item.w >= pointerX) &&
-				(item.y + 5 > pointerY) && (item.y <= pointerY))
+				(item.y + 5 > pointerY) && (item.y <= pointerY)) || 
 				// right bottom
 				((item.x + item.w - 5 < pointerX) && (item.x + item.w >= pointerX) &&
-				(item.y + item.h - 5 < pointerY) && (item.y + item.h >= pointerY))
+				(item.y + item.h - 5 < pointerY) && (item.y + item.h >= pointerY)) ||
 				// left bottom
 				((item.x + 5 > pointerX) && (item.x <= pointerX) &&
 				(item.y + item.h - 5 < pointerY) && (item.y + item.h >= pointerY))
 			) {
-				// resize
-				// return
-			} else {
-				// create rectangle
+				status = 'resize';
+				setEditStatus(status);
+				break
 			}
 		}
-		startX.current = pointerX;
-		startY.current = pointerY;
-		setIsTrimming(true);
+
+		// create rectangle
+		if(status === 'disable') {
+			createStartPoint(pointerX, pointerY);
+		}
 	}
 
 	function handleTrimming(e) {
-		if(!isTrimming) return
+		if(editStatus !== 'new') return
 		const x = e.nativeEvent.offsetX;
 		const y = e.nativeEvent.offsetY;
 
@@ -84,7 +109,7 @@ const SpecSection = ({ fileShow, dimension }) => {
 	}
 
 	function handleStopTrimming() {
-		setIsTrimming(false)
+		setEditStatus('disable')
 	}
 
 	function handleSetRect() {
