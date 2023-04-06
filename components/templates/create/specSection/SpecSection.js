@@ -39,6 +39,22 @@ const SpecSection = ({ fileShow, dimension }) => {
 			) {
 				// start grab
 				// return
+			} else if(
+				// left top
+				((item.x + 5 > pointerX) && (item.x <= pointerX) &&
+				 (item.y + 5 > pointerY) && (item.y <= pointerY)) ||
+				// right top
+				((item.x + item.w - 5 < pointerX) && (item.x + item.w >= pointerX) &&
+				(item.y + 5 > pointerY) && (item.y <= pointerY))
+				// right bottom
+				((item.x + item.w - 5 < pointerX) && (item.x + item.w >= pointerX) &&
+				(item.y + item.h - 5 < pointerY) && (item.y + item.h >= pointerY))
+				// left bottom
+				((item.x + 5 > pointerX) && (item.x <= pointerX) &&
+				(item.y + item.h - 5 < pointerY) && (item.y + item.h >= pointerY))
+			) {
+				// resize
+				// return
 			} else {
 				// create rectangle
 			}
