@@ -4,7 +4,8 @@ import { SpecOutline } from '../../../../components';
 
 import styles from './specsection.style';
 
-let rectWidth, rectHeight;
+const range = 5;
+let rectWidth, rectHeight, rectStartX, rectStartY;
 
 const SpecSection = ({ fileShow, dimension }) => {
 	const refEdit = useRef(null);
@@ -40,24 +41,30 @@ const SpecSection = ({ fileShow, dimension }) => {
 		let status = 'disable';
 
 		if(!rect.length) {
-			createStartPoint(pointerX, pointerY)
+			createStartPoint(pointerX, pointerY);
 			return
 		};
 
 		for(let item of rect) {
 			// move
 			if(
-				((item.x + 5 <= pointerX && item.y + 5 <= pointerY) &&
-				(item.x + item.w - 5 >= pointerX && item.y + item.h - 5 >= pointerY)) ||
-				((item.x < pointerX && item.x + 5 > pointerX) &&
-				 (item.y + 5 <= pointerY && item.y + item.h - 5 >= pointerY)) ||
-				((item.x + 5 <= pointerX && item.x + item.w - 5 >= pointerX) &&
-				 (item.y < pointerY && item.y + 5 > pointerY)) ||
-				((item.x + item.w - 5 < pointerX && item.x + item.w > pointerX) &&
-				 (item.y + 5 <= pointerY && item.y + item.h - 5 >= pointerY)) ||
-				((item.x + 5 <= pointerX && item.x + item.w - 5 >= pointerX) &&
-				 (item.y + item.h - 5 < pointerY && item.y + item.h > pointerY)) 
+				((item.x + range <= pointerX && item.y + range <= pointerY) &&
+				(item.x + item.w - range >= pointerX && item.y + item.h - range >= pointerY)) ||
+				((item.x < pointerX && item.x + range > pointerX) &&
+				 (item.y + range <= pointerY && item.y + item.h - range >= pointerY)) ||
+				((item.x + range <= pointerX && item.x + item.w - range >= pointerX) &&
+				 (item.y < pointerY && item.y + range > pointerY)) ||
+				((item.x + item.w - range < pointerX && item.x + item.w > pointerX) &&
+				 (item.y + range <= pointerY && item.y + item.h - range >= pointerY)) ||
+				((item.x + range <= pointerX && item.x + item.w - range >= pointerX) &&
+				 (item.y + item.h - range < pointerY && item.y + item.h > pointerY)) 
 			) {
+				startX.current = pointerX;
+				startY.current = pointerY;
+				rectStartX = item.x;
+				rectStartY = item.y;
+				rectWidth = item.w;
+				rectHeight = item.h;
 				status = 'move';
 				setEditStatus(status);
 				break
@@ -65,17 +72,17 @@ const SpecSection = ({ fileShow, dimension }) => {
 			// resize
 			} else if(
 				// left top
-				((item.x + 5 > pointerX) && (item.x <= pointerX) &&
-				 (item.y + 5 > pointerY) && (item.y <= pointerY)) ||
+				((item.x + range > pointerX) && (item.x <= pointerX) &&
+				 (item.y + range > pointerY) && (item.y <= pointerY)) ||
 				// right top
-				((item.x + item.w - 5 < pointerX) && (item.x + item.w >= pointerX) &&
-				(item.y + 5 > pointerY) && (item.y <= pointerY)) || 
+				((item.x + item.w - range < pointerX) && (item.x + item.w >= pointerX) &&
+				(item.y + range > pointerY) && (item.y <= pointerY)) || 
 				// right bottom
-				((item.x + item.w - 5 < pointerX) && (item.x + item.w >= pointerX) &&
-				(item.y + item.h - 5 < pointerY) && (item.y + item.h >= pointerY)) ||
+				((item.x + item.w - range < pointerX) && (item.x + item.w >= pointerX) &&
+				(item.y + item.h - range < pointerY) && (item.y + item.h >= pointerY)) ||
 				// left bottom
-				((item.x + 5 > pointerX) && (item.x <= pointerX) &&
-				(item.y + item.h - 5 < pointerY) && (item.y + item.h >= pointerY))
+				((item.x + range > pointerX) && (item.x <= pointerX) &&
+				(item.y + item.h - range < pointerY) && (item.y + item.h >= pointerY))
 			) {
 				status = 'resize';
 				setEditStatus(status);
@@ -90,22 +97,33 @@ const SpecSection = ({ fileShow, dimension }) => {
 	}
 
 	function handleTrimming(e) {
-		if(editStatus !== 'new') return
-		const x = e.nativeEvent.offsetX;
-		const y = e.nativeEvent.offsetY;
+		if(editStatus === 'new') {
+			const x = e.nativeEvent.offsetX;
+			const y = e.nativeEvent.offsetY;
+	
+			rectWidth = x - startX.current;
+			rectHeight = y - startY.current;
+	
+	
+			contextRef.current.clearRect(0, 0, refEdit.current.width, refEdit.current.height);
+			contextRef.current.strokeRect(startX.current, startY.current, rectWidth, rectHeight);
+	
+			contextRef.current.fillRect(startX.current, startY.current, rectWidth, rectHeight);
+			contextRef.current.fillStyle = 'rgba(100,100,100,0.2)';
+			contextRef.current.strokeStyle = 'rgba(223,75,38,0.4)';
+	
+			setIsTrimmed(true);
+		}
 
-		rectWidth = x - startX.current;
-		rectHeight = y - startY.current;
-
-
-		contextRef.current.clearRect(0, 0, refEdit.current.width, refEdit.current.height);
-		contextRef.current.strokeRect(startX.current, startY.current, rectWidth, rectHeight);
-
-		contextRef.current.fillRect(startX.current, startY.current, rectWidth, rectHeight);
-		contextRef.current.fillStyle = 'rgba(100,100,100,0.2)';
-		contextRef.current.strokeStyle = 'rgba(223,75,38,0.4)';
-
-		setIsTrimmed(true);
+		if(editStatus === 'move') {
+			const gapX = e.nativeEvent.offsetX - startX.current;
+			const gapY = e.nativeEvent.offsetY - startY.current;
+			contextRef.current.clearRect(0, 0, refEdit.current.width, refEdit.current.height);
+			contextRef.current.strokeRect(rectStartX + gapX, rectStartY + gapY, rectWidth, rectHeight);
+			contextRef.current.fillRect(rectStartX + gapX, rectStartY + gapY, rectWidth, rectHeight);
+			contextRef.current.fillStyle = 'rgba(100,100,100,0.2)';
+			contextRef.current.strokeStyle = 'rgba(223,75,38,0.4)';
+		}
 	}
 
 	function handleStopTrimming() {
