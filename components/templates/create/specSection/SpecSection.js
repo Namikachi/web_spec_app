@@ -5,7 +5,7 @@ import { SpecOutline } from '../../../../components';
 import styles from './specsection.style';
 
 const range = 5;
-let rectWidth, rectHeight, rectStartX, rectStartY;
+let rectWidth, rectHeight, rectX, rectY, savedRectIndex;
 
 const SpecSection = ({ fileShow, dimension }) => {
 	const refEdit = useRef(null);
@@ -28,10 +28,28 @@ const SpecSection = ({ fileShow, dimension }) => {
 		}
 	}, [fileShow]);
 
-	function createStartPoint(x, y) {
+	useEffect(() => {
+		if(editStatus === 'move') {
+			const newRectsArray = rect.filter((item, i) => i !== Number(savedRectIndex));
+			const ctx = refShow.current.getContext('2d');
+		
+			for(let item of rect) {
+				ctx.clearRect(item.x - 1, item.y - 1, item.w + 2, item.h + 2);
+			}
+	
+			for(let item of newRectsArray) {
+				ctx.strokeRect(item.x, item.y, item.w, item.h);
+				ctx.fillRect(item.x, item.y, item.w, item.h);
+				ctx.fillStyle = 'rgba(100, 100, 100, 0.2)';
+				ctx.strokeStyle = 'rgba(223,75,38,0.4)';
+			}
+			setRect(newRectsArray);
+		}
+	}, [editStatus])
+
+	function currentPoint(x, y) {
 		startX.current = x;
 		startY.current = y;
-		setEditStatus('new');
 	}
 	
 	// trimming or rescale or drag & drop
@@ -41,11 +59,13 @@ const SpecSection = ({ fileShow, dimension }) => {
 		let status = 'disable';
 
 		if(!rect.length) {
-			createStartPoint(pointerX, pointerY);
+			currentPoint(pointerX, pointerY);
+			setEditStatus('new');
 			return
 		};
 
-		for(let item of rect) {
+		for(let index in rect) {
+			const item = rect[index];
 			// move
 			if(
 				((item.x + range <= pointerX && item.y + range <= pointerY) &&
@@ -59,10 +79,10 @@ const SpecSection = ({ fileShow, dimension }) => {
 				((item.x + range <= pointerX && item.x + item.w - range >= pointerX) &&
 				 (item.y + item.h - range < pointerY && item.y + item.h > pointerY)) 
 			) {
-				startX.current = pointerX;
-				startY.current = pointerY;
-				rectStartX = item.x;
-				rectStartY = item.y;
+				currentPoint(pointerX, pointerY);
+				savedRectIndex = index;
+				rectX = item.x;
+				rectY = item.y;
 				rectWidth = item.w;
 				rectHeight = item.h;
 				status = 'move';
@@ -92,7 +112,8 @@ const SpecSection = ({ fileShow, dimension }) => {
 
 		// create rectangle
 		if(status === 'disable') {
-			createStartPoint(pointerX, pointerY);
+			currentPoint(pointerX, pointerY);
+			setEditStatus('new');
 		}
 	}
 
@@ -119,8 +140,8 @@ const SpecSection = ({ fileShow, dimension }) => {
 			const gapX = e.nativeEvent.offsetX - startX.current;
 			const gapY = e.nativeEvent.offsetY - startY.current;
 			contextRef.current.clearRect(0, 0, refEdit.current.width, refEdit.current.height);
-			contextRef.current.strokeRect(rectStartX + gapX, rectStartY + gapY, rectWidth, rectHeight);
-			contextRef.current.fillRect(rectStartX + gapX, rectStartY + gapY, rectWidth, rectHeight);
+			contextRef.current.strokeRect(rectX + gapX, rectY + gapY, rectWidth, rectHeight);
+			contextRef.current.fillRect(rectX + gapX, rectY + gapY, rectWidth, rectHeight);
 			contextRef.current.fillStyle = 'rgba(100,100,100,0.2)';
 			contextRef.current.strokeStyle = 'rgba(223,75,38,0.4)';
 		}
