@@ -4,7 +4,26 @@ import { SpecOutline } from '../../../../components';
 
 import styles from './specsection.style';
 
+/**
+ * @typedef {{
+* 						x:number,
+* 						y:number,
+* 						w:number,
+* 						h:number
+* 					}} RectInfo
+*/
+
+/**
+* @type {number}
+* four corners size
+*/
 const range = 5;
+
+/**
+* @type {RectInfo[]}
+* each rectangle position, size
+*/
+let rectArray = [];
 let rectWidth, rectHeight, rectX, rectY, savedRectIndex;
 
 const SpecSection = ({ fileShow, dimension }) => {
