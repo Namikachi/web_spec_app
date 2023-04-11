@@ -5,14 +5,14 @@ import styles from './hierarchypalette.style';
 
 const hrchyArray = ['primary', 'secondary', 'tertiary'];
 
-const HierarchyPalette = ({ selectedItem, onPress, isDisable }) => {
+const HierarchyPalette = ({ selectedHrchy, onPress, isDisable }) => {
 	return (
 		<View style={styles.container}>
-			<RectIcon selectedHrchy={selectedItem}/>
+			<RectIcon selectedHrchy={selectedHrchy}/>
 			{hrchyArray.map((item) => (
 				<TouchableOpacity
 					key={item}
-					style={styles.hrchyBtn(item, selectedItem, isDisable.includes(item))}
+					style={styles.hrchyBtn(item, selectedHrchy, isDisable.includes(item))}
 					onPress={() => onPress(item)}
 					disabled={isDisable.includes(item)}>
 					<Text style={styles.text}>{item.charAt().toUpperCase()}</Text>

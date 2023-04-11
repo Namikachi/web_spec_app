@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { SafeAreaView } from 'react-native';
 
-import { FileSelectButton, SpecSection } from '../../components/';
+import { FileUploadButton, SpecSection } from '../../components/';
 
 const index = () => {
 	const [fileShow, setFileShow] = useState();
@@ -12,7 +12,7 @@ const index = () => {
 			{fileShow !== undefined ? (
 				<SpecSection fileShow={fileShow} dimension={dimension} />
 			) : (
-				<FileSelectButton setFileShow={setFileShow} setDimension={setDimension} />
+				<FileUploadButton setFileShow={setFileShow} setDimension={setDimension} />
 			)}
 		</SafeAreaView>
 	)

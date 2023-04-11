@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
 	startCreateBtn: {
 		width: 100,
 		height: 50,
-		backgroundColor: COLORS.tertiary,
+		backgroundColor: COLORS.primary,
 		borderRadius: SIZES.medium,
 		justifyContent: 'center',
 		alignItems: 'center',
