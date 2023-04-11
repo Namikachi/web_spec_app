@@ -1,11 +1,17 @@
-import FileSelectButton from './templates/create/fileUploadButton/FileUploadButton';
+import FileUploadButton from './templates/create/fileUploadButton/FileUploadButton';
 import SpecSection from './templates/create/specSection/SpecSection';
 
-import SpecOutline from './organisms/create/specOutline/SpecOutline';
+import HierarchyPalette from './organisms/create/hierarchyPalette/HierarchyPalette'
+import VisualDesign from './organisms/create/visualDesign/VisualDesign';
+import SpecIndexList from './organisms/create/specIndexList/SpecIndexList';
+import Specification from './organisms/create/specification/Specification';
 
 export {
-  FileSelectButton,
-  SpecSection,
+	FileUploadButton,
+	SpecSection,
 
-  SpecOutline,
+	HierarchyPalette,
+	VisualDesign,
+	SpecIndexList,
+	Specification,
 }

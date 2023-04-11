@@ -5,7 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import styles from './fileuploadbutton.style';
 import { icons } from '../../../../constants';
 
-const FileSelectButton = ({ setFileShow, setDimension }) => {
+const FileUploadButton = ({ setFileShow, setDimension }) => {
 	const handleDocumentSelection = useCallback(async () => {
 		try {
 			const response = await ImagePicker.launchImageLibraryAsync({
@@ -33,4 +33,4 @@ const FileSelectButton = ({ setFileShow, setDimension }) => {
 	)
 }
 
-export default FileSelectButton
+export default FileUploadButton

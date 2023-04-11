@@ -1,13 +1,25 @@
 const COLORS = {
-	primary: '#312651',
-	secondary: '#444262',
-	tertiary: '#FF7754',
+	primary: '#F09000',
+	secondary: '#8EA604',
 
-	gray: '#83829A',
-	gray2: '#C1C0C8',
+	dark100: '#212121',
+	dark600: '#949494',
+	
+	gray: '#F0F0F0',
 
 	white: '#F3F4F8',
 	lightWhite: '#FAFAFC',
+
+	item: {
+		primary100: '#35B335',
+		primary600: '#AFDEA6',
+
+		secondary100: '#FF6C48',
+		secondary600: '#ffc0ab',
+
+		tertiary100: '#7171FF',
+		tertiary600: '#C7BEFF',
+	}
 };
 
 const FONT = {
@@ -26,26 +38,26 @@ const SIZES = {
 };
 
 const SHADOWS = {
-  small: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 2,
-  },
-  medium: {
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 5.84,
-    elevation: 5,
-  },
+	small: {
+		shadowColor: '#000',
+		shadowOffset: {
+			width: 0,
+			height: 2,
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 3.84,
+		elevation: 2,
+	},
+	medium: {
+		shadowColor: '#000',
+		shadowOffset: {
+			width: 0,
+			height: 2,
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 5.84,
+		elevation: 5,
+	},
 };
 
 export { COLORS, FONT, SIZES, SHADOWS };
