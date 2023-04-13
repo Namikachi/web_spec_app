@@ -17,7 +17,7 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 
 	const [editState, setEditState] = useState('disable');
 	const [startPosition, setStartPosition] = useState({x: 0, y: 0});
-	const [index, setIndex] = useState('');
+	const [index, setIndex] = useState(0);
 
 	let rectSize = {w: 0, h: 0};
 
@@ -54,7 +54,7 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 		const pointerY = e.nativeEvent.offsetY;
 
 		if(rectInfo.length === 0) {
-			setIndex('1');
+			setIndex(1);
 			setEditState('new');
 			setStartPosition({x: pointerX, y: pointerY});
 			return
@@ -104,8 +104,8 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 			// new
 			} else {
 				// secondary, tertiary → find primary
-				const exitIndexArray = rectInfo.filter(item => item.hierarchy === selectedHrchy).map(item => {return item.key})[0];
-				const newIndex = selectedHrchy === 'primary' ? exitIndexArray.length + 1 : '';
+				const exitIndex = rectInfo.filter(item => item.hierarchy === selectedHrchy).map(item => {return item.key}).pop();
+				const newIndex = selectedHrchy === 'primary' ? exitIndex + 1 : '';
 				setIndex(newIndex);
 				setStartPosition({x: pointerX, y: pointerY});
 				setEditState('new');
