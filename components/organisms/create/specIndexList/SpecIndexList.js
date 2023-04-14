@@ -4,25 +4,14 @@ import styles from './specindexlist.style';
 
 const regex = /[-]/g;
 
-const SpecIndexList = () => {
+const SpecIndexList = ({ rectInfo }) => {
 	return (
 		<View style={styles.container}>
 			<FlatList
-				data={[
-					{key: '1'},
-					{key: '1-1'},
-					{key: '1-2'},
-					{key: '1-3'},
-					{key: '1-4'},
-					{key: '2'},
-					{key: '2-1'},
-					{key: '2-2'},
-					{key: '3'},
-					{key: '3-1'},
-				]}
+				data={rectInfo}
 				renderItem={({item}) => 
 					<TouchableOpacity>
-						{!item.key.match(regex) ? 
+						{!item.key.toString().match(regex) ? 
 							<Text style={styles.textPrimary} >{item.key}</Text> :
 						 item.key.match(regex).length === 1 ?
 							<Text style={styles.textSecondary} >{item.key}</Text> :

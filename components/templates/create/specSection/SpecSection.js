@@ -23,7 +23,7 @@ const SpecSection = ({ fileShow, dimension }) => {
 				fileShow={fileShow}
 				rectInfo={rectInfo}
 				setRectInfo={setRectInfo} />
-			<SpecIndexList />
+			<SpecIndexList rectInfo={rectInfo} />
 			<Specification />
 		</View>
 	)
