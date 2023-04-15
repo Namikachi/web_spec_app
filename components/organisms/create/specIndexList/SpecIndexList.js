@@ -5,13 +5,24 @@ import styles from './specindexlist.style';
 const regex = /[-]/g;
 
 const SpecIndexList = ({ rectInfo }) => {
+	function compareIndex(a, b) {
+		if (a.key < b.key) {
+			return -1;
+		}
+		if (a.key > b.key) {
+			return 1;
+		}
+
+		return 0;
+	}
+
 	return (
 		<View style={styles.container}>
 			<FlatList
-				data={rectInfo}
+				data={rectInfo.sort(compareIndex)}
 				renderItem={({item}) => 
 					<TouchableOpacity>
-						{!item.key.toString().match(regex) ? 
+						{!item.key.match(regex) ? 
 							<Text style={styles.textPrimary} >{item.key}</Text> :
 						 item.key.match(regex).length === 1 ?
 							<Text style={styles.textSecondary} >{item.key}</Text> :

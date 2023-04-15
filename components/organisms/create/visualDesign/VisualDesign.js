@@ -17,7 +17,7 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 
 	const [editState, setEditState] = useState('disable');
 	const [startPosition, setStartPosition] = useState({x: 0, y: 0});
-	const [index, setIndex] = useState(0);
+	const [index, setIndex] = useState();
 
 	let rectSize = {w: 0, h: 0};
 
@@ -52,9 +52,10 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 	function handleStartTrimming(e) {
 		const pointerX = e.nativeEvent.offsetX;
 		const pointerY = e.nativeEvent.offsetY;
+		let parentIndex;
 
 		if(rectInfo.length === 0) {
-			setIndex(1);
+			setIndex('1');
 			setEditState('new');
 			setStartPosition({x: pointerX, y: pointerY});
 			return
@@ -76,11 +77,16 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 				((x + w - range < pointerX && x + w > pointerX) &&
 				 (y + range <= pointerY && y + h - range >= pointerY)) ||
 				((x + range <= pointerX && x + w - range >= pointerX) &&
-				 (y + h - range < pointerY && y + h > pointerY)) 
+				 (y + h - range < pointerY && y + h > pointerY))
 			) {
-				setIndex(item.key);
-				setStartPosition({x: pointerX, y: pointerY});
-				setEditState('move');
+				if(item.hierarchy === selectedHrchy) {
+					setIndex(item.key);
+					setStartPosition({x: pointerX, y: pointerY});
+					setEditState('move');
+				} else {
+					parentIndex = item.key;
+					newRectangle();
+				}
 				break
 
 			// resize
@@ -103,13 +109,28 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 
 			// new
 			} else {
-				// secondary, tertiary → find primary
-				const exitIndex = rectInfo.filter(item => item.hierarchy === selectedHrchy).map(item => {return item.key}).pop();
-				const newIndex = selectedHrchy === 'primary' ? exitIndex + 1 : '';
-				setIndex(newIndex);
-				setStartPosition({x: pointerX, y: pointerY});
-				setEditState('new');
+				newRectangle();
 			}
+		}
+
+		function newRectangle() {
+			const exitIndexForPrimary = rectInfo.filter(item => item.hierarchy === selectedHrchy).map(item => {return item.key}).pop();
+			const exitIndexForSecondary = rectInfo.filter(item => (item.hierarchy === selectedHrchy) && (item.key.indexOf(parentIndex) === 0)).map(item => {return item.key}).pop();
+			let newIndex;
+			if(selectedHrchy === 'primary') {
+				newIndex = Number(exitIndexForPrimary) + 1;
+			} else if(selectedHrchy === 'secondary') {
+				if(exitIndexForSecondary) {
+					const hyphenIndex = exitIndexForSecondary.indexOf('-')
+					newIndex = exitIndexForSecondary.slice(0,hyphenIndex) + '-' + (Number(exitIndexForSecondary.slice(-1)) + 1);
+				} else {
+					newIndex = parentIndex + '-1'
+				}
+
+			}
+			setIndex(newIndex.toString());
+			setStartPosition({x: pointerX, y: pointerY});
+			setEditState('new');
 		}
 	}
 
