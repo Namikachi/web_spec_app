@@ -35,7 +35,15 @@ const styles = StyleSheet.create({
 		borderRadius: 4,
 	},
 	textTertiary: {
-
+		fontSize: SIZES.small,
+		fontFamily: FONT.bold,
+		backgroundColor: COLORS.item.tertiary100,
+		paddingLeft: 6,
+		marginTop: 2,
+		marginBottom: 5,
+		marginLeft: 15,
+		color: COLORS.lightWhite,
+		borderRadius: 4,
 	},
 })
 

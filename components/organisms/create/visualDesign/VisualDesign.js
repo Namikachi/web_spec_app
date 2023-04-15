@@ -83,12 +83,14 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 					setIndex(item.key);
 					setStartPosition({x: pointerX, y: pointerY});
 					setEditState('move');
-				} else {
+					break
+				} else if((item.hierarchy === 'primary' && selectedHrchy === 'secondary') || 
+				(item.hierarchy === 'secondary' && selectedHrchy === 'tertiary')){
 					parentIndex = item.key;
 					newRectangle();
+					break
 				}
-				break
-
+				
 			// resize
 			} else if(
 				// left top
@@ -114,19 +116,28 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 		}
 
 		function newRectangle() {
-			const exitIndexForPrimary = rectInfo.filter(item => item.hierarchy === selectedHrchy).map(item => {return item.key}).pop();
-			const exitIndexForSecondary = rectInfo.filter(item => (item.hierarchy === selectedHrchy) && (item.key.indexOf(parentIndex) === 0)).map(item => {return item.key}).pop();
+			const exitIndex = rectInfo.filter(item => item.hierarchy === selectedHrchy);
 			let newIndex;
+
 			if(selectedHrchy === 'primary') {
-				newIndex = Number(exitIndexForPrimary) + 1;
+				const index = exitIndex.map(item => {return item.key}).pop();
+				newIndex = Number(index) + 1;
 			} else if(selectedHrchy === 'secondary') {
-				if(exitIndexForSecondary) {
-					const hyphenIndex = exitIndexForSecondary.indexOf('-')
-					newIndex = exitIndexForSecondary.slice(0,hyphenIndex) + '-' + (Number(exitIndexForSecondary.slice(-1)) + 1);
+				const index = exitIndex.filter(item => item.key.slice(0, item.key.indexOf('-')) === parentIndex).map(item => {return item.key}).pop();
+				if(index) {
+					const hyphenIndex = index.indexOf('-')
+					newIndex = index.slice(0,hyphenIndex) + '-' + (Number(index.slice(-1)) + 1);
 				} else {
 					newIndex = parentIndex + '-1'
 				}
-
+			} else {
+				const index = exitIndex.filter(item => item.key.slice(0, item.key.indexOf('-', item.key.indexOf('-')) === parentIndex)).map(item => {return item.key}).pop();
+				if(index) {
+					const hyphenIndex = index.indexOf('-', index.indexOf('-'))
+					newIndex = index.slice(0,hyphenIndex) + '-' + (Number(index.slice(-1)) + 1);
+				} else {
+					newIndex = parentIndex + '-1';
+				}
 			}
 			setIndex(newIndex.toString());
 			setStartPosition({x: pointerX, y: pointerY});
