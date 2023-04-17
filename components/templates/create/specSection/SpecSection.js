@@ -10,8 +10,9 @@ import styles from './specsection.style';
 
 const SpecSection = ({ fileShow, dimension }) => {
 	const [selectedHrchy, setSelectedHrchy] = useState('primary');
-	const [isDisable, setIsDisable] = useState(['secondary', 'tertiary'])
+	const [isDisable, setIsDisable] = useState(['secondary', 'tertiary']);
 	const [rectInfo, setRectInfo] = useState([]);
+	const [index, setIndex] = useState();
 
 	return (
 		<View style={styles.container}>
@@ -22,9 +23,11 @@ const SpecSection = ({ fileShow, dimension }) => {
 				dimension={dimension}
 				fileShow={fileShow}
 				rectInfo={rectInfo}
-				setRectInfo={setRectInfo} />
+				setRectInfo={setRectInfo}
+				index={index}
+				setIndex={setIndex} />
 			<SpecIndexList rectInfo={rectInfo} />
-			<Specification />
+			<Specification rectInfo={rectInfo} setRectInfo={setRectInfo} index={index} />
 		</View>
 	)
 }
