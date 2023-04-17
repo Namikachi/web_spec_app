@@ -6,10 +6,10 @@ const regex = /[-]/g;
 
 const SpecIndexList = ({ rectInfo, setIndex }) => {
 	function compareIndex(a, b) {
-		if (a.key < b.key) {
+		if (a.index < b.index) {
 			return -1;
 		}
-		if (a.key > b.key) {
+		if (a.index > b.index) {
 			return 1;
 		}
 
@@ -20,13 +20,13 @@ const SpecIndexList = ({ rectInfo, setIndex }) => {
 			<FlatList
 				data={rectInfo.sort(compareIndex)}
 				renderItem={({item}) => 
-					<TouchableOpacity onPress={() => setIndex(item.key)}>
-						{!item.key.match(regex) ? 
-							<Text style={styles.textPrimary} >{item.key}</Text> :
-						 item.key.match(regex).length === 1 ?
-							<Text style={styles.textSecondary} >{item.key}</Text> :
-						 item.key.match(regex).length === 2 ?
-							<Text style={styles.textTertiary} >{item.key}</Text> :
+					<TouchableOpacity onPress={() => setIndex(item.index)}>
+						{!item.index.match(regex) ? 
+							<Text style={styles.textPrimary} >{item.index}</Text> :
+						 item.index.match(regex).length === 1 ?
+							<Text style={styles.textSecondary} >{item.index}</Text> :
+						 item.index.match(regex).length === 2 ?
+							<Text style={styles.textTertiary} >{item.index}</Text> :
 						 ''
 						}
 					</TouchableOpacity>

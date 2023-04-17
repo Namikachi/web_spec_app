@@ -32,7 +32,7 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 
 	useEffect(() => {
 		if(editState === 'move') {
-			const newRectsArray = rectInfo.filter(item => item.key !== index);
+			const newRectsArray = rectInfo.filter(item => item.index !== index);
 			const ctx = refShow.current.getContext('2d');
 		
 			for(let item of rectInfo) {
@@ -79,13 +79,13 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 				 (y + h - range < pointerY && y + h > pointerY))
 			) {
 				if(item.hierarchy === selectedHrchy) {
-					setIndex(item.key);
+					setIndex(item.index);
 					setStartPosition({x: pointerX, y: pointerY});
 					setEditState('move');
 					break
 				} else if((item.hierarchy === 'primary' && selectedHrchy === 'secondary') || 
 				(item.hierarchy === 'secondary' && selectedHrchy === 'tertiary')){
-					parentIndex = item.key;
+					parentIndex = item.index;
 					newRectangle();
 					break
 				}
@@ -119,10 +119,10 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 			let newIndex;
 
 			if(selectedHrchy === 'primary') {
-				const index = exitIndex.map(item => {return item.key}).pop();
+				const index = exitIndex.map(item => {return item.index}).pop();
 				newIndex = Number(index) + 1;
 			} else if(selectedHrchy === 'secondary') {
-				const index = exitIndex.filter(item => item.key.slice(0, item.key.indexOf('-')) === parentIndex).map(item => {return item.key}).pop();
+				const index = exitIndex.filter(item => item.index.slice(0, item.index.indexOf('-')) === parentIndex).map(item => {return item.index}).pop();
 				if(index) {
 					const hyphenIndex = index.indexOf('-')
 					newIndex = index.slice(0,hyphenIndex) + '-' + (Number(index.slice(-1)) + 1);
@@ -130,7 +130,7 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 					newIndex = parentIndex + '-1'
 				}
 			} else {
-				const index = exitIndex.filter(item => item.key.slice(0, item.key.indexOf('-', item.key.indexOf('-')) === parentIndex)).map(item => {return item.key}).pop();
+				const index = exitIndex.filter(item => item.index.slice(0, item.index.indexOf('-', item.index.indexOf('-')) === parentIndex)).map(item => {return item.index}).pop();
 				if(index) {
 					const hyphenIndex = index.indexOf('-', index.indexOf('-'))
 					newIndex = index.slice(0,hyphenIndex) + '-' + (Number(index.slice(-1)) + 1);
@@ -167,7 +167,7 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 		if(editState === 'new') {
 			setRectInfo(
 				rectInfo => [...rectInfo, {
-					key: index,
+					index: index,
 					hierarchy: selectedHrchy,
 					rectangle: {
 						x: startPosition.x,
@@ -181,7 +181,7 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 		
 		if(editState === 'move') {
 			const array = rectInfo.map(item => {
-				if(item.key === index) {
+				if(item.index === index) {
 					item.rectangle.x += rectSize.w;
 					item.rectangle.y += rectSize.h;
 				}
@@ -193,7 +193,7 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 	}
 
 	function drawRectangle(canvas, state) {
-		const rect = state === 'move' ? rectInfo.filter(item => item.key === index)[0].rectangle : '';
+		const rect = state === 'move' ? rectInfo.filter(item => item.index === index)[0].rectangle : '';
 		const x = state === 'new' ? startPosition.x : state === 'move' ? rect.x + rectSize.w : '';
 		const y = state === 'new' ? startPosition.y : state === 'move' ? rect.y + rectSize.h : '';
 		const w = state === 'new' ? rectSize.w : state === 'move' ? rect.w : '';

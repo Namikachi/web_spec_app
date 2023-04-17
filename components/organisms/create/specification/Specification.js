@@ -16,30 +16,30 @@ const inlineStyle = {
 
 const Specification = ({ rectInfo, setRectInfo, index }) => {
 	const [data, setData] = useState({
-		key: index,
+		index: index,
 		specification: {
-			section_name: rectInfo.find(item => item.key === index)?.specification?.section_name,
-			section_outline: rectInfo.find(item => item.key === index)?.specification?.section_outline,
+			section_name: rectInfo.find(item => item.index === index)?.specification?.section_name,
+			section_outline: rectInfo.find(item => item.index === index)?.specification?.section_outline,
 		}
 	});
 
 	useEffect(() => {
-		const object = rectInfo.find(item => item.key === data.key);
+		const object = rectInfo.find(item => item.index === data.index);
 		const updatedObject = {
 			...object,
 			specification: data.specification
 		};
-		const selectedObject = rectInfo.find(item => item.key === index);
+		const selectedObject = rectInfo.find(item => item.index === index);
 
 		setRectInfo(rectInfo.map(item => {
-			if(item.key === data.key) {
+			if(item.index === data.index) {
 				return updatedObject
 			} else {
 				return item
 			}
 		}));
 		setData({
-			key: index,
+			index: index,
 			specification: {
 				section_name: selectedObject?.specification?.section_name === undefined ? '' : selectedObject.specification.section_name,
 				section_outline: selectedObject?.specification?.section_outline === undefined ? '' : selectedObject.specification.section_outline,
@@ -49,7 +49,7 @@ const Specification = ({ rectInfo, setRectInfo, index }) => {
 
 	function onChange(name, text) {
 		setData({
-			key: data.key,
+			index: data.index,
 			specification: {
 			...data.specification,
 			[name]: text,
