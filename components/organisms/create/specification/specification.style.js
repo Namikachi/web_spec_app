@@ -8,6 +8,13 @@ const styles = StyleSheet.create({
 	},
 	primaryWrapper: {
 		marginTop: 100
+	},
+	index: {
+		fontSize: SIZES.xxLarge,
+		fontFamily: FONT.bold
+	},
+	label: {
+		marginTop: 10,
 	}
 })
 
