@@ -12,7 +12,7 @@ const SpecSection = ({ fileShow, dimension }) => {
 	const [selectedHrchy, setSelectedHrchy] = useState('primary');
 	const [isDisable, setIsDisable] = useState(['secondary', 'tertiary']);
 	const [rectInfo, setRectInfo] = useState([]);
-	const [index, setIndex] = useState();
+	const [index, setIndex] = useState('');
 
 	return (
 		<View style={styles.container}>

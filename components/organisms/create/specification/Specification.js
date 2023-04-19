@@ -1,4 +1,4 @@
-import { View, TextInput } from 'react-native';
+import { View, Text, TextInput } from 'react-native';
 import { useState, useEffect } from 'react';
 
 import styles from './specification.style';
@@ -15,8 +15,10 @@ const inlineStyle = {
 };
 
 const Specification = ({ rectInfo, setRectInfo, index }) => {
+	const parentIndex = index.includes('-') ? index.slice(0, index.indexOf('-')) : index;
 	const [data, setData] = useState({
 		index: index,
+		parentIndex: parentIndex,
 		specification: {
 			section_name: rectInfo.find(item => item.index === index)?.specification?.section_name,
 			section_outline: rectInfo.find(item => item.index === index)?.specification?.section_outline,
@@ -40,6 +42,7 @@ const Specification = ({ rectInfo, setRectInfo, index }) => {
 		}));
 		setData({
 			index: index,
+			parentIndex: parentIndex,
 			specification: {
 				section_name: selectedObject?.specification?.section_name === undefined ? '' : selectedObject.specification.section_name,
 				section_outline: selectedObject?.specification?.section_outline === undefined ? '' : selectedObject.specification.section_outline,
@@ -48,18 +51,23 @@ const Specification = ({ rectInfo, setRectInfo, index }) => {
 	}, [index]);
 
 	function onChange(name, text) {
+		const parent = data.index.includes('-') ? data.index.slice(0, data.index.indexOf('-')) : data.index;
 		setData({
 			index: data.index,
+			parentIndex: parent, 
 			specification: {
-			...data.specification,
-			[name]: text,
-		}})
+				...data.specification,
+				[name]: text,
+			}
+		})
 	};
 
 	return (
 		<View style={styles.container}>
 			{rectInfo.length !== 0 && (
 				<View style={styles.primaryWrapper}>
+					<Text>{data.parentIndex}</Text>
+					<Text>{data.index}</Text>
 					<TextInput style={inlineStyle} placeholder='Section name' placeholderTextColor={COLORS.dark600} onChangeText={text => onChange('section_name', text)} value={data.specification?.section_name === undefined ? '' : data.specification.section_name} />
 					<TextInput style={inlineStyle} placeholder='Section outline' placeholderTextColor={COLORS.dark600} multiline={true} maxLength={50}  onChangeText={text => onChange('section_outline', text)} value={data.specification?.section_outline === undefined ? '' : data.specification.section_outline} />
 				</View>
