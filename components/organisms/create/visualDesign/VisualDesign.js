@@ -10,12 +10,11 @@ import { COLORS } from '../../../../constants';
 */
 const range = 5;
 
-const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectInfo, setRectInfo, index, setIndex }) => {
+const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectInfo, setRectInfo, index, setIndex, editState, setEditState }) => {
 	const refEdit = useRef(null);
 	const refShow = useRef(null);
 	const contextRef = useRef(null);
 
-	const [editState, setEditState] = useState('disable');
 	const [startPosition, setStartPosition] = useState({x: 0, y: 0});
 
 	let rectSize = {w: 0, h: 0};
@@ -31,8 +30,8 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 	}, [fileShow]);
 
 	useEffect(() => {
-		if(editState === 'move') {
-			const newRectsArray = rectInfo.filter(item => item.index !== index);
+		const newRectsArray = rectInfo.filter(item => item.index !== index);
+		if(editState === 'move' || editState === 'delete') {
 			const ctx = refShow.current.getContext('2d');
 		
 			for(let item of rectInfo) {
@@ -46,7 +45,12 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 				ctx.strokeStyle = COLORS.item[item.hierarchy + 100];
 			}
 		}
-	}, [editState])
+
+		if(editState === 'delete') {
+			setRectInfo(newRectsArray);
+			setIndex(newRectsArray[newRectsArray.length-1].index)
+		}
+	}, [editState]);
 
 	function handleStartTrimming(e) {
 		const pointerX = e.nativeEvent.offsetX;

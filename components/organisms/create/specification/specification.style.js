@@ -7,7 +7,10 @@ const styles = StyleSheet.create({
 		flex: 6,
 	},
 	primaryWrapper: {
-		marginTop: 100
+		marginTop: 100,
+		flexDirection: 'column',
+		flex: 1,
+		justifyContent: 'space-between',
 	},
 	index: {
 		fontSize: SIZES.xxLarge,
@@ -15,6 +18,20 @@ const styles = StyleSheet.create({
 	},
 	label: {
 		marginTop: 10,
+	},
+	button: {
+		width: 100,
+		height: 50,
+		backgroundColor: COLORS.primary,
+		borderRadius: SIZES.medium,
+		justifyContent: 'center',
+		alignItems: 'center',
+		alignSelf: 'end',
+	},
+	buttonText: {
+		color: COLORS.white,
+		fontSize: SIZES.medium,
+		fontFamily: FONT.bold,
 	}
 })
 

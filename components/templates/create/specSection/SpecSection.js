@@ -13,6 +13,7 @@ const SpecSection = ({ fileShow, dimension }) => {
 	const [isDisable, setIsDisable] = useState(['secondary', 'tertiary']);
 	const [rectInfo, setRectInfo] = useState([]);
 	const [index, setIndex] = useState('');
+	const [editState, setEditState] = useState('disable');
 
 	return (
 		<View style={styles.container}>
@@ -25,9 +26,11 @@ const SpecSection = ({ fileShow, dimension }) => {
 				rectInfo={rectInfo}
 				setRectInfo={setRectInfo}
 				index={index}
-				setIndex={setIndex} />
+				setIndex={setIndex}
+				editState={editState}
+				setEditState={setEditState} />
 			<SpecIndexList rectInfo={rectInfo} setIndex={setIndex} />
-			<Specification rectInfo={rectInfo} setRectInfo={setRectInfo} index={index} />
+			<Specification rectInfo={rectInfo} setRectInfo={setRectInfo} index={index} setEditState={setEditState} />
 		</View>
 	)
 }
