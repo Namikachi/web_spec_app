@@ -48,7 +48,13 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 
 		if(editState === 'delete') {
 			setRectInfo(newRectsArray);
-			setIndex(newRectsArray[newRectsArray.length-1].index)
+			if(newRectsArray.length) {
+				setIndex(newRectsArray[newRectsArray.length-1].index);
+				setEditState('new');
+			} else {
+				setIndex('')
+				setEditState('new');
+			}
 		}
 	}, [editState]);
 
