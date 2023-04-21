@@ -50,10 +50,10 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 			setRectInfo(newRectsArray);
 			if(newRectsArray.length) {
 				setIndex(newRectsArray[newRectsArray.length-1].index);
-				setEditState('new');
+				setEditState('disable');
 			} else {
 				setIndex('')
-				setEditState('new');
+				setEditState('disable');
 			}
 		}
 	}, [editState]);
