@@ -135,15 +135,16 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 				const index = exitIndex.filter(item => item.index.slice(0, item.index.indexOf('-')) === parentIndex).map(item => {return item.index}).pop();
 				if(index) {
 					const hyphenIndex = index.indexOf('-')
-					newIndex = index.slice(0,hyphenIndex) + '-' + (Number(index.slice(-1)) + 1);
+					newIndex = index.slice(0, hyphenIndex) + '-' + (Number(index.slice(-1)) + 1);
 				} else {
 					newIndex = parentIndex + '-1'
 				}
 			} else {
-				const index = exitIndex.filter(item => item.index.slice(0, item.index.indexOf('-', item.index.indexOf('-')) === parentIndex)).map(item => {return item.index}).pop();
+				const index = exitIndex.filter(item => item.index.slice(0, item.index.indexOf('-', item.index.indexOf('-')+1)) === parentIndex).map(item => {return item.index}).pop();
 				if(index) {
-					const hyphenIndex = index.indexOf('-', index.indexOf('-'))
-					newIndex = index.slice(0,hyphenIndex) + '-' + (Number(index.slice(-1)) + 1);
+					const hyphenIndex = index.indexOf('-', index.indexOf('-')+1);
+					const sliceIndex = hyphenIndex - index.length + 1;
+					newIndex = index.slice(0, hyphenIndex) + '-' + (Number(index.slice(sliceIndex)) + 1);
 				} else {
 					newIndex = parentIndex + '-1';
 				}
