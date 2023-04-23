@@ -1,20 +1,11 @@
 import { View, FlatList, TouchableOpacity, Text } from 'react-native';
+import { compareIndex } from '../../../../utils';
 
 import styles from './specindexlist.style';
 
 const regex = /[-]/g;
 
 const SpecIndexList = ({ rectInfo, setIndex }) => {
-	function compareIndex(a, b) {
-		if (a.index < b.index) {
-			return -1;
-		}
-		if (a.index > b.index) {
-			return 1;
-		}
-
-		return 0;
-	}
 	return (
 		<View style={styles.container}>
 			<FlatList

@@ -1,5 +1,6 @@
 import { View, ScrollView, Image } from 'react-native';
 import { useRef, useState, useEffect } from 'react';
+import { compareIndex } from '../../../../utils';
 
 import styles from './visualdesign.style';
 import { COLORS } from '../../../../constants';
@@ -125,34 +126,36 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 		}
 
 		function newRectangle() {
-			const exitIndex = rectInfo.filter(item => item.hierarchy === selectedHrchy);
-			let newIndex;
+			const indexArray = rectInfo.sort(compareIndex).filter(groupSameParent).map(item => {return item.index});
+			const index = indexArray.length > 0 ? indexArray.pop() : parentIndex + '-0';
+			const newIndex = getNewIndex();
 
-			if(selectedHrchy === 'primary') {
-				const index = exitIndex.map(item => {return item.index}).pop();
-				newIndex = Number(index) + 1;
-			} else if(selectedHrchy === 'secondary') {
-				const index = exitIndex.filter(item => item.index.slice(0, item.index.indexOf('-')) === parentIndex).map(item => {return item.index}).pop();
-				if(index) {
-					const hyphenIndex = index.indexOf('-')
-					newIndex = index.slice(0, hyphenIndex) + '-' + (Number(index.slice(-1)) + 1);
+			function groupSameParent(item) {
+				if(item.hierarchy === selectedHrchy) {
+					if(selectedHrchy === 'primary') return item
+					if(selectedHrchy === 'secondary') return item.index.slice(0, item.index.indexOf('-')) === parentIndex;
+					if(selectedHrchy === 'tertiary') return item.index.slice(0, item.index.lastIndexOf('-')) === parentIndex;
+					else return false
 				} else {
-					newIndex = parentIndex + '-1'
-				}
-			} else {
-				const index = exitIndex.filter(item => item.index.slice(0, item.index.indexOf('-', item.index.indexOf('-')+1)) === parentIndex).map(item => {return item.index}).pop();
-				if(index) {
-					const hyphenIndex = index.indexOf('-', index.indexOf('-')+1);
-					const sliceIndex = hyphenIndex - index.length + 1;
-					newIndex = index.slice(0, hyphenIndex) + '-' + (Number(index.slice(sliceIndex)) + 1);
-				} else {
-					newIndex = parentIndex + '-1';
+					return false
 				}
 			}
+
+			function getNewIndex() {
+				if(selectedHrchy === 'primary') return Number(index) + 1;
+				
+				const hyphenIndex = selectedHrchy === 'secondary' ? index.indexOf('-') :
+														selectedHrchy === 'tertiary' ? index.lastIndexOf('-') : 0;
+				const value = index.slice(0, hyphenIndex) + '-' + (Number(index.slice(hyphenIndex + 1)) + 1)
+				if(selectedHrchy === 'secondary' || selectedHrchy === 'tertiary') return value;
+				return 0
+			}
+
 			setIndex(newIndex.toString());
 			setStartPosition({x: pointerX, y: pointerY});
 			setEditState('new');
 		}
+		e.preventDefault();
 	}
 
 	function handleTrimming(e) {
@@ -165,6 +168,7 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 		// if minus
 		contextRef.current.clearRect(0, 0, refEdit.current.width, refEdit.current.height);
 		drawRectangle(contextRef.current, editState);
+		e.preventDefault();
 	}
 
 	function handleStopTrimming() {
