@@ -121,7 +121,9 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 
 			// new
 			} else {
-				newRectangle();
+				if(selectedHrchy === 'primary') {
+					newRectangle();
+				}
 			}
 		}
 
