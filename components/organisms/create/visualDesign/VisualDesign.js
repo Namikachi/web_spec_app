@@ -23,7 +23,7 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 	useEffect(() => {
 		if (refEdit.current) {
 			const ctx = refEdit.current.getContext('2d');
-			ctx.lineCap = "round";
+			ctx.lineCap = 'round';
 			ctx.lineWidth = 3;
 
 			contextRef.current = ctx;
