@@ -16,9 +16,6 @@ const styles = StyleSheet.create({
 		fontSize: SIZES.xxLarge,
 		fontFamily: FONT.bold
 	},
-	label: {
-		marginTop: 10,
-	},
 	button: {
 		width: 100,
 		height: 50,

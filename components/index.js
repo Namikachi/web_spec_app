@@ -6,6 +6,8 @@ import VisualDesign from './organisms/create/visualDesign/VisualDesign';
 import SpecIndexList from './organisms/create/specIndexList/SpecIndexList';
 import Specification from './organisms/create/specification/Specification';
 
+import TextInputArea from './molecules/textInputArea/TextInputArea';
+
 export {
 	FileUploadButton,
 	SpecSection,
@@ -14,4 +16,6 @@ export {
 	VisualDesign,
 	SpecIndexList,
 	Specification,
+
+	TextInputArea,
 }

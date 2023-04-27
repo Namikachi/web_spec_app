@@ -1,19 +1,8 @@
-import { View, Text, TextInput } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { useState, useEffect } from 'react';
 
 import styles from './specification.style';
-import { COLORS, SIZES } from '../../../../constants';
-import { TouchableOpacity } from 'react-native-web';
-
-const inlineStyle = {
-	outline: 'none',
-	fontSize: SIZES.xLarge,
-	padding: 8,
-	border: '1px solid #ddd',
-	backgroundColor: '#fff',
-	height: 48,
-	marginTop: 5
-};
+import { TextInputArea } from '../../../../components';
 
 const Specification = ({ rectInfo, setRectInfo, index, setEditState }) => {
 	const parentIndex = index.includes('-') ? index.slice(0, index.indexOf('-')) : index;
@@ -51,18 +40,6 @@ const Specification = ({ rectInfo, setRectInfo, index, setEditState }) => {
 		});
 	}, [index]);
 
-	function onChange(name, text) {
-		const parent = data.index.includes('-') ? data.index.slice(0, data.index.indexOf('-')) : data.index;
-		setData({
-			index: data.index,
-			parentIndex: parent, 
-			specification: {
-				...data.specification,
-				[name]: text,
-			}
-		})
-	};
-
 	return (
 		<View style={styles.container}>
 			{rectInfo.length !== 0 && (
@@ -70,10 +47,8 @@ const Specification = ({ rectInfo, setRectInfo, index, setEditState }) => {
 					<View>
 						{/* <Text>{data.parentIndex}</Text> */}
 						<Text style={styles.index}>{data.index}</Text>
-						<Text style={styles.label}>Section name</Text>
-						<TextInput style={inlineStyle} placeholder='Section name' placeholderTextColor={COLORS.dark600} onChangeText={text => onChange('section_name', text)} value={data.specification?.section_name === undefined ? '' : data.specification.section_name} />
-						<Text style={styles.label}>Section outline</Text>
-						<TextInput style={inlineStyle} placeholder='Section outline' placeholderTextColor={COLORS.dark600} multiline={true} maxLength={50}  onChangeText={text => onChange('section_outline', text)} value={data.specification?.section_outline === undefined ? '' : data.specification.section_outline} />
+						<TextInputArea title='Section name' data={data} setData={setData} />
+						<TextInputArea title='Section outline' data={data} setData={setData} />
 					</View>
 					<TouchableOpacity style={styles.button} onPress={() => setEditState('delete')} >
 						<Text style={styles.buttonText}>Delete</Text>
