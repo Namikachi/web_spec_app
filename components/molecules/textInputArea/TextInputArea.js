@@ -7,11 +7,11 @@ import { COLORS, SIZES } from '../../../constants';
 const inlineStyle = (state) => ({
 	outline: 'none',
 	fontSize: SIZES.xLarge,
-	padding: 8,
+	padding: 5,
 	border: state === 'focus' ? '1px solid #ddd' : 'none',
 	backgroundColor: state === 'focus' ? '#f6f6f6' : COLORS.lightWhite,
-	height: 48,
-	marginTop: 5
+	height: 32,
+	marginTop: 2
 });
 
 const TextInputArea = ({ title, data, setData }) => {

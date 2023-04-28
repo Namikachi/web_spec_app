@@ -44,11 +44,13 @@ const Specification = ({ rectInfo, setRectInfo, index, setEditState }) => {
 		<View style={styles.container}>
 			{rectInfo.length !== 0 && (
 				<View style={styles.primaryWrapper}>
-					<View>
+					<View style={styles.wrap}>
 						{/* <Text>{data.parentIndex}</Text> */}
 						<Text style={styles.index}>{data.index}</Text>
-						<TextInputArea title='Section name' data={data} setData={setData} />
-						<TextInputArea title='Section outline' data={data} setData={setData} />
+						<View style={styles.outline}>
+							<TextInputArea title='Section name' data={data} setData={setData} />
+							<TextInputArea title='Section outline' data={data} setData={setData} />
+						</View>
 					</View>
 					<TouchableOpacity style={styles.button} onPress={() => setEditState('delete')} >
 						<Text style={styles.buttonText}>Delete</Text>

@@ -7,14 +7,15 @@ const styles = StyleSheet.create({
 		flex: 6,
 	},
 	primaryWrapper: {
-		marginTop: 100,
+		marginTop: 20,
 		flexDirection: 'column',
 		flex: 1,
 		justifyContent: 'space-between',
 	},
 	index: {
 		fontSize: SIZES.xxLarge,
-		fontFamily: FONT.bold
+		fontFamily: FONT.bold,
+		flex: 1
 	},
 	button: {
 		width: 100,
@@ -29,7 +30,14 @@ const styles = StyleSheet.create({
 		color: COLORS.white,
 		fontSize: SIZES.medium,
 		fontFamily: FONT.bold,
-	}
+	},
+	wrap: {
+		display: 'flex',
+		flexDirection: 'row'
+	},
+	outline: {
+		flex: 11
+	},
 })
 
 export default styles;
