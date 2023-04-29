@@ -7,9 +7,10 @@ const styles = StyleSheet.create({
 		flex: 6,
 	},
 	primaryWrapper: {
-		marginTop: 20,
+		marginTop: 10,
 		flexDirection: 'column',
 		flex: 1,
+		display: 'flex',
 		justifyContent: 'space-between',
 	},
 	index: {
@@ -25,6 +26,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		alignSelf: 'end',
+		flex: 1,
+		marginTop: 10,
 	},
 	buttonText: {
 		color: COLORS.white,
@@ -33,11 +36,18 @@ const styles = StyleSheet.create({
 	},
 	wrap: {
 		display: 'flex',
-		flexDirection: 'row'
+		flexDirection: 'row',
+		flex: 2,
 	},
 	outline: {
 		flex: 11
 	},
+	main: {
+		marginTop: 15,
+		backgroundColor: COLORS.white,
+		flex: 9,
+		padding: 10
+	}
 })
 
 export default styles;

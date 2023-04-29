@@ -52,6 +52,24 @@ const Specification = ({ rectInfo, setRectInfo, index, setEditState }) => {
 							<TextInputArea title='Section outline' data={data} setData={setData} />
 						</View>
 					</View>
+					<View style={styles.main}>
+						{data.index.includes('-') && (
+							<>
+								<Text>
+									toggle
+								</Text>
+								<Text>
+									click
+								</Text>
+								<Text>
+									tag
+								</Text>
+								<Text>
+									d112
+								</Text>
+							</>
+						)}
+					</View>
 					<TouchableOpacity style={styles.button} onPress={() => setEditState('delete')} >
 						<Text style={styles.buttonText}>Delete</Text>
 					</TouchableOpacity>
