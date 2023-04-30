@@ -55,18 +55,14 @@ const Specification = ({ rectInfo, setRectInfo, index, setEditState }) => {
 					<View style={styles.main}>
 						{data.index.includes('-') && (
 							<>
-								<Text>
+								<Text style={styles.text}>
 									toggle
 								</Text>
-								<Text>
-									click
-								</Text>
-								<Text>
+								<TextInput style={styles.textinput} />
+								<Text style={styles.text}>
 									tag
 								</Text>
-								<Text>
-									d112
-								</Text>
+								<TextInput style={styles.textinput} />
 							</>
 						)}
 					</View>

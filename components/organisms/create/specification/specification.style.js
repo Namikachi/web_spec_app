@@ -47,7 +47,15 @@ const styles = StyleSheet.create({
 		backgroundColor: COLORS.white,
 		flex: 9,
 		padding: 10
-	}
+	},
+	textinput: {
+		marginTop: 5,
+		height: 30,
+		border: '1px solid #ddd',
+	},
+	text: {
+		marginTop: 10
+	},
 })
 
 export default styles;
