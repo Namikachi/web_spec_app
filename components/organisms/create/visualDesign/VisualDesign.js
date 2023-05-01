@@ -182,18 +182,24 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 		contextRef.current.clearRect(0, 0, refEdit.current.width, refEdit.current.height);
 
 		if(editState === 'new') {
-			setRectInfo(
-				rectInfo => [...rectInfo, {
-					index: index,
-					hierarchy: selectedHrchy,
-					rectangle: {
-						x: startPosition.x,
-						y: startPosition.y,
-						w: rectSize.w,
-						h: rectSize.h,
-					}
-				}]
-			)
+			if(rectSize.w <= range || rectSize.h <= range) {
+				const i = rectInfo.length ? rectInfo[rectInfo.length - 1].index : '';
+				setIndex(i);
+				setEditState('disable');
+			} else {
+				setRectInfo(
+					rectInfo => [...rectInfo, {
+						index: index,
+						hierarchy: selectedHrchy,
+						rectangle: {
+							x: startPosition.x,
+							y: startPosition.y,
+							w: rectSize.w,
+							h: rectSize.h,
+						}
+					}]
+				)
+			}
 		}
 		
 		if(editState === 'move') {
