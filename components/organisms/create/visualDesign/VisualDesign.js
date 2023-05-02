@@ -40,10 +40,10 @@ const VisualDesign = ({ selectedHrchy, setIsDisable, dimension, fileShow, rectIn
 			}
 	
 			for(let item of newRectsArray) {
+				ctx.strokeStyle = COLORS.item[item.hierarchy + 100];
 				ctx.strokeRect(item.rectangle.x, item.rectangle.y, item.rectangle.w, item.rectangle.h);
 				ctx.fillRect(item.rectangle.x, item.rectangle.y, item.rectangle.w, item.rectangle.h);
 				ctx.fillStyle = 'rgba(100, 100, 100, 0.2)';
-				ctx.strokeStyle = COLORS.item[item.hierarchy + 100];
 			}
 		}
 

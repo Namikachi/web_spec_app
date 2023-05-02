@@ -63,6 +63,10 @@ const Specification = ({ rectInfo, setRectInfo, index, setEditState }) => {
 									tag
 								</Text>
 								<TextInput style={styles.textinput} />
+								<Text style={styles.text}>
+									API
+								</Text>
+								<TextInput style={styles.textinput} />
 							</>
 						)}
 					</View>
