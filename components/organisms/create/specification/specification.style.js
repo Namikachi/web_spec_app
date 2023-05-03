@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 	index: {
 		fontSize: SIZES.xxLarge,
 		fontFamily: FONT.bold,
-		flex: 1
+		flex: 2
 	},
 	button: {
 		width: 100,
@@ -40,10 +40,10 @@ const styles = StyleSheet.create({
 		flex: 2,
 	},
 	outline: {
-		flex: 11
+		flex: 12
 	},
 	main: {
-		marginTop: 15,
+		marginTop: 25,
 		backgroundColor: COLORS.white,
 		flex: 9,
 		padding: 10
