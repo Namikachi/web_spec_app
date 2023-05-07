@@ -56,6 +56,10 @@ const Specification = ({ rectInfo, setRectInfo, index, setEditState }) => {
 						{data.index.includes('-') && (
 							<>
 								<Text style={styles.text}>
+									Description
+								</Text>
+								<TextInput style={styles.textinput} />
+								<Text style={styles.text}>
 									toggle
 								</Text>
 								<TextInput style={styles.textinput} />
@@ -65,6 +69,10 @@ const Specification = ({ rectInfo, setRectInfo, index, setEditState }) => {
 								<TextInput style={styles.textinput} />
 								<Text style={styles.text}>
 									API
+								</Text>
+								<TextInput style={styles.textinput} />
+								<Text style={styles.text}>
+									Text
 								</Text>
 								<TextInput style={styles.textinput} />
 							</>
